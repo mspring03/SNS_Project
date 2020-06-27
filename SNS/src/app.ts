@@ -2,9 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
-// import apiRouter from './routers';
+import apiRouter from './routers';
+import { sequelize } from './config/Connection';
 import { Request, Response } from "express";
-// import { sequelize } from './config/Connection';
 import * as dotenv from "dotenv";
 import path from 'path';
 
@@ -22,17 +22,23 @@ app.set('jwt-secret', process.env.secretkey);
 
 app.use(morgan('dev'));
 
-// sequelize.sync()
-//     .then(() => {
-
-//     })
+sequelize.sync()
+    .then(() => {
+    console.log('✓ DB connection success.');
+    console.log('  Press CTRL-C to stop\n');
+    })
+    .catch(err => {
+    console.error(err);
+    console.log('✗ DB connection error. Please make sure DB is running.');
+    process.exit();
+});
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World");
 });
 
-// app.use('/api', apiRouter);
-// app.use('/', router);
+app.use('/api', apiRouter);
+app.use('/', router);
 
 app.use((err, req, res, next) => {
     res.status(404).json({

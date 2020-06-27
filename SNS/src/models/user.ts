@@ -1,7 +1,7 @@
 import { sequelize } from "../config/Connection";
 import Sequelize, { Model } from "sequelize";
 
-export class user extends Model<user> {
+export class User extends Model<User> {
     id: number;
     userName: string;
     password: string;
@@ -9,7 +9,7 @@ export class user extends Model<user> {
     token: string;
 }
 
-user.init(
+User.init(
     {
         id: {
             type: Sequelize.INTEGER,
@@ -35,6 +35,6 @@ user.init(
         }
     }, {
         sequelize,
-        modelName: "user"
+        modelName: "User"
     }
 );

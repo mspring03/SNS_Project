@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
-const mktoken = async (res: Response, req: Request, user) => {
+export const mktoken = async (req: Request, res: Response, user): Promise<string> => {
     const secret = req.app.get('jwt-secret');
-    const token = new Promise((resolve, reject) => {
+    const token: any = new Promise((resolve, reject) => {
         jwt.sign({
-            id: user.userId,
-            nick: user.nick,
+            id: user.userName,
+            nick: user.nickName,
         },
         secret,
         {
@@ -17,9 +17,4 @@ const mktoken = async (res: Response, req: Request, user) => {
         });
     });
     return token;
-}
-
-
-module.exports = {
-    mktoken
 }

@@ -10,6 +10,16 @@ const findUserById = async (userName: string): Promise<any> => {
     return user;
 };
 
+const findUserByRefreshToken = async (refreshtoken: string): Promise<any> => {
+    const user: any = await User.findOne({
+        where: { refreshtoken: refreshtoken }
+    });
+
+    if(user != null) 
+    return user.dataValues;
+    return user;
+};
+
 const userCreate = async (userName: string, password: string, nickName: string) => {
     await User.create({
         userName: userName,
@@ -18,9 +28,10 @@ const userCreate = async (userName: string, password: string, nickName: string) 
     });
 }
 
-const tokenUpdate = async (userName: string, token: string) => {
+const tokenUpdate = async (userName: string, token: string, refreshtoken: string) => {
     await User.update({
         token: token,
+        refreshtoken: refreshtoken
     },{ 
         where: { userName: userName } 
     });
@@ -29,5 +40,6 @@ const tokenUpdate = async (userName: string, token: string) => {
 export {
     findUserById,
     userCreate,
+    findUserByRefreshToken,
     tokenUpdate
 }

@@ -7,6 +7,7 @@ export class User extends Model<User> {
     password: string;
     nickName: string;
     token: string;
+    refreshtoken: string;
 }
 
 User.init(
@@ -31,6 +32,9 @@ User.init(
             allowNull: false
         },
         token: {
+            type: Sequelize.STRING
+        },
+        refreshtoken: {
             type: Sequelize.STRING
         }
     }, {

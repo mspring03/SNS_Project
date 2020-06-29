@@ -7,7 +7,10 @@ import { sequelize } from './config/Connection';
 import { Request, Response } from "express";
 import * as dotenv from "dotenv";
 import path from 'path';
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 
+const swaggerDoc = YAML.load('./swagger.yaml');
 const router = express.Router();
 const app = express();
 const port: number = 3000;
@@ -37,6 +40,7 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Hello World");
 });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use('/api', apiRouter);
 app.use('/', router);
 

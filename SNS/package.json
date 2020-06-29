@@ -31,8 +31,11 @@
     "npx": "^10.2.2",
     "sequelize": "^5.21.13",
     "socket.io": "^2.3.0",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "yamljs": "^0.3.0"
   }
 }

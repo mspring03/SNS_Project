@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 
-const eccessToken = (req, res, next) => {
+const accessToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['x-access-token'];
 
     if (!token) return res.json({ message: 'token is required!' });
@@ -9,14 +10,14 @@ const eccessToken = (req, res, next) => {
             if(err) 
                 return res.json({ message: err });
             else{
-                req.decoded = decoded;
+                req['decoded'] = decoded;
                 next();
             }
         });
     }
 }
 
-const refreshToken = (req, res, next) => {
+const refreshToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['x-refresh-token'];
 
     if (!token) return res.json({ message: 'token is required!' });
@@ -25,7 +26,7 @@ const refreshToken = (req, res, next) => {
             if(err) 
                 return res.json({ message: err });
             else{
-                req.decoded = decoded;
+                req['decoded'] = decoded;
                 next();
             }
         });
@@ -33,6 +34,6 @@ const refreshToken = (req, res, next) => {
 }
 
 export { 
-    eccessToken,
+    accessToken,
     refreshToken
 }

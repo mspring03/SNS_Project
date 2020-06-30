@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
-const mktoken = async (req: Request, user): Promise<string> => {
+interface type { (req: Request, user: object): Promise<string> }
+
+const mktoken: type = async (req, user) => {
     const secret = req.app.get('jwt-secret');
-    const token: any = await ((resolve, reject) => {
+    const token: string = await ((resolve, reject) => {
         jwt.sign({
-            id: user.id,
-            userName: user.userName,
-            nickName: user.nickName,
+            id: user['id'],
+            userName: user['userName'],
+            nickName: user['nickName'],
         },
         secret,
         {
@@ -21,11 +23,11 @@ const mktoken = async (req: Request, user): Promise<string> => {
     return token;
 }
 
-const mkRefreshtoken = async (req: Request, user): Promise<string> => {
+const mkRefreshtoken: type = async (req, user) => {
     const secret = req.app.get('jwt-secret');
-    const refreshtoken: any = await ((resolve, reject) => {
+    const refreshtoken: string = await ((resolve, reject) => {
         jwt.sign({
-            nickName: user.nickName
+            nickName: user['nickName']
         },
         secret,
         {

@@ -1,7 +1,7 @@
 import * as query from "./query";
 import { Request, Response } from "express";
 
-type userType = {
+interface userType {
     userName: string;
     password: string;
     nickName: string;

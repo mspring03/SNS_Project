@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 
-type handlerFunc = (req: Request, res: Response) => void ;
+interface handlerFunc {
+    (req: Request, res: Response): void ;
+} 
 
 export class tryCatchMiddleware {
 

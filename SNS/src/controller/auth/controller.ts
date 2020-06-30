@@ -5,7 +5,11 @@ import * as token from "./mkToken";
 const mktoken = token.mktoken;
 const mkRefreshtoken = token.mkRefreshtoken;
 
-const signInUser = async (req: Request, res: Response) => {
+interface type {
+    (req: Request, res: Response): void;
+}
+
+const signInUser: type = async (req, res) => {
     const { userName, password } = req.body;
     const user: object = await userQuery.findUserById(userName);
 
@@ -19,13 +23,13 @@ const signInUser = async (req: Request, res: Response) => {
     }
 }
 
-const me = async (req: Request, res: Response) => {
+const me: type = async (req, res) => {
     const eccesstoken: string = req.header['x-eccess-token'];
     const user: object = await userQuery.findUserByToken(eccesstoken);
     res.status(200).json({ message: 'user return', user });
 }
 
-const refresh = async (req: Request, res: Response) => {
+const refresh: type = async (req, res) => {
     const eccesstoken: string = req.header['x-eccess-token'];
     const refreshtoken: string  = req.header['x-refresh-token'];
     const user: object = await userQuery.findUserByRefreshToken(refreshtoken);

@@ -2,12 +2,10 @@ import { Request, Response } from "express";
 import * as userQuery from "./query";
 import * as token from "./mkToken";
 
+interface type { (req: Request, res: Response): void; }
+
 const mktoken = token.mktoken;
 const mkRefreshtoken = token.mkRefreshtoken;
-
-interface type {
-    (req: Request, res: Response): void;
-}
 
 const signInUser: type = async (req, res) => {
     const { userName, password } = req.body;

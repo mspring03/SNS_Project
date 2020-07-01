@@ -5,7 +5,7 @@ interface type { (req: Request, user: object): Promise<string> }
 
 const mktoken: type = async (req, user) => {
     const secret = req.app.get('jwt-secret');
-    const token: string = await ((resolve, reject) => {
+    const token: any = await ((resolve, reject) => {
         jwt.sign({
             id: user['id'],
             userName: user['userName'],
@@ -25,7 +25,7 @@ const mktoken: type = async (req, user) => {
 
 const mkRefreshtoken: type = async (req, user) => {
     const secret = req.app.get('jwt-secret');
-    const refreshtoken: string = await ((resolve, reject) => {
+    const refreshtoken: any = await ((resolve, reject) => {
         jwt.sign({
             nickName: user['nickName']
         },

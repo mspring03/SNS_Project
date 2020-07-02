@@ -1,6 +1,10 @@
 import { User } from "../../models/user";
 
-const findUserById = async (userName: string): Promise<object> => {
+interface type {
+    (value1: string): Promise<object>;
+}
+
+const findUserById: type = async (userName) => {
     const user: any = await User.findOne({
         where: { userName: userName }
     });
@@ -10,7 +14,7 @@ const findUserById = async (userName: string): Promise<object> => {
     return user;
 };
 
-const findUserByToken = async (token: string): Promise<object> => {
+const findUserByToken: type = async (token) => {
     const user: any = await User.findOne({
         where: { token: token }
     });
@@ -20,7 +24,7 @@ const findUserByToken = async (token: string): Promise<object> => {
     return user;
 };
 
-const findUserByRefreshToken = async (refreshtoken: string): Promise<object> => {
+const findUserByRefreshToken: type = async (refreshtoken) => {
     const user: any = await User.findOne({
         where: { refreshtoken: refreshtoken }
     });

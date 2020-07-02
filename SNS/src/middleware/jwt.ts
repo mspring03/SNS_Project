@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 const accessToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers['x-access-token'];
+    const token: any = req.headers['x-access-token'];
 
     if (!token) return res.json({ message: 'token is required!' });
     else {
@@ -18,7 +18,7 @@ const accessToken = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const refreshToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers['x-refresh-token'];
+    const token: any = req.headers['x-refresh-token'];
 
     if (!token) return res.json({ message: 'token is required!' });
     else {

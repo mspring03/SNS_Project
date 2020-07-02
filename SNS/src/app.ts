@@ -9,17 +9,28 @@ import * as dotenv from "dotenv";
 import path from 'path';
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
+import session from "express-session";
+import passport from "passport";
 
 const swaggerDoc = YAML.load('./swagger.yaml');
 const router = express.Router();
 const app = express();
 const port: number = 3000;
 
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: 's3cr3t',
+    resave: true,
+    saveUninitialized: true
+  }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set('jwt-secret', process.env.secretkey);
 
@@ -53,3 +64,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log("app listening on port 3000!");
 });
+
+module.exports = app;

@@ -17,10 +17,6 @@ router.post("/signIn", signInHanddler);
 router.get("/me", accessToken, meHanddler);
 router.get("/refresh", refreshToken, refreshHanddler);
 router.get('/github', passportGitHub.authenticate('github'));
-router.get('/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/signIn' }),
-  function(req, res) {
-
-    res.redirect('/');
-});
+router.get('/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/signIn' }), userController.github);
 
 export default router;

@@ -4,9 +4,9 @@ interface type {
     (value1: string): Promise<object>;
 }
 
-const findUserById: type = async (userName) => {
+const findUserByEmail: type = async (email) => {
     const user: any = await User.findOne({
-        where: { userName: userName }
+        where: { email: email }
     });
 
     if(user != null) 
@@ -34,17 +34,17 @@ const findUserByRefreshToken: type = async (refreshtoken) => {
     return user;
 };
 
-const tokenUpdate = async (userName: string, token: string, refreshtoken: string) => {
+const tokenUpdate = async (email: string, token: string, refreshtoken: string) => {
     await User.update({
         token: token,
         refreshtoken: refreshtoken
     },{ 
-        where: { userName: userName } 
+        where: { email: email } 
     });
 }
 
 export {
-    findUserById,
+    findUserByEmail,
     findUserByToken,
     findUserByRefreshToken,
     tokenUpdate

@@ -13,9 +13,8 @@ import session from "express-session";
 import passport from "passport";
 
 const swaggerDoc = YAML.load('./swagger.yaml');
-const router = express.Router();
 const app = express();
-const port: number = 3000;
+const port: number = 8080;
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
@@ -53,7 +52,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use('/api', apiRouter);
-app.use('/', router);
 
 app.use((err, req, res, next) => {
     res.status(404).json({
@@ -62,7 +60,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-    console.log("app listening on port 3000!");
+    console.log("app listening on port 8080!");
 });
 
 module.exports = app;

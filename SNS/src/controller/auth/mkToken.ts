@@ -8,7 +8,7 @@ const mktoken: type = async (req, user) => {
     const token: any = await ((resolve, reject) => {
         jwt.sign({
             id: user['id'],
-            userName: user['userName'],
+            email: user['email'],
             nickName: user['nickName'],
         },
         secret,

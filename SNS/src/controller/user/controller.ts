@@ -2,7 +2,7 @@ import * as query from "./query";
 import { Request, Response } from "express";
 
 interface userType {
-    userName: string;
+    email: string;
     password: string;
     nickName: string;
 }
@@ -13,43 +13,43 @@ const findAllUser = async (req: Request, res: Response) => {
 }
 
 const showUser = async (req: Request, res: Response) => {
-    const user:object = await query.findOneUserById(req.params.userName);
-    res.status(200).json({ message: 'findOneUser', userName: user['userName'], nickName: user['nickName'] });
+    const user:object = await query.findOneUserById(req.params.email);
+    res.status(200).json({ message: 'findOneUser', email: user['email'], nickName: user['email'] });
 }
 
 const signUpUser = async (req: Request, res: Response) => {
-    const { userName, password, nickName }: userType = req.body;
+    const { email, password, nickName }: userType = req.body;
     
-    if (await query.findOneUserById(userName)) 
-        throw new Error('userName already exist');
+    if (await query.findOneUserById(email)) 
+        throw new Error('email already exist');
 
-    await query.userCreate(userName, password, nickName);
+    await query.userCreate(email, password, nickName);
     res.status(200).json({ message: 'signUp success' }).end();
 }
 
 const userUpdate = async (req: Request, res: Response) => {
-    const { userName, password, nickName }: userType = req.body;
+    // const { password, nickName }: userType = req.body;
 
-    if (userName) await query.userNameUpdate(userName, req.params.userName);
-    if (password) await query.passwordUpdate(password, req.params.userName);
-    if (nickName) await query.nickNameUpdate(nickName, req.params.userName);
-    res.status(200).json({ message: 'user update' }).end();
+    // if (password) await query.passwordUpdate(password, req.params.email);
+    // if (nickName) await query.nickNameUpdate(nickName, req.params.email);
+    // res.status(200).json({ message: 'user update' }).end();
 }
 
 const userDelete = async (req: Request, res: Response) => {
     const password: string = req.body.password;
-    const user: object = await query.findOneUserById(req.params.userName);
+    const user: object = await query.findOneUserById(req.params.email);
     
     if(user['password'] === password)
-        await query.deleteUser(req.params.userName);
+        await query.deleteUser(req.params.email);
 
     res.status(200).json({ message: 'Delete Successful' });
 }
 
 const checkPermission = async (req: Request, res: Response, next): Promise<any> => {
     try {
-        const user: object = await query.findOneUserById(req.params.userName);
-        if (!req["decoded"] || user['id'] != req["decoded.id"])
+        const user: object = await query.findOneUserById(req.params.email);
+        
+        if (!req['decoded'] || user['id'] != req["decoded"].id)
             res.json({ message: 'You don\'t have permission' }); 
         else next();
     } catch (e) {

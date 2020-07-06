@@ -10,7 +10,7 @@ export const mailSender = {
             ,requireTLS : true
             , auth: {
               user: 'aespringaa@gmail.com'
-              ,pass: 'aa030517'
+              ,pass: ''
             }
         });
         // 메일 옵션

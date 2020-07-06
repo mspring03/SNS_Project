@@ -8,8 +8,8 @@ const GoogleStrategy = Google.OAuth2Strategy;
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 passport.use(new GoogleStrategy({
-    clientID: "443067379227-1qca96rs28gnig9d2njj5pmv34dcenr4.apps.googleusercontent.com",
-    clientSecret: "Bj0Gx6gcuKC_eOmIWjrfRaAP",
+    clientID: "",
+    clientSecret: "",
     callbackURL: "http://10.156.145.143:8080/api/auth/google/callback",
 }, async function(accessToken, refreshToken, profile, cb) {
     console.log(profile);

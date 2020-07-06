@@ -2,17 +2,15 @@ import { User } from "../../models/user";
 
 const findAllUser = async (): Promise<object> => {
     const user: any = await User.findAll({
-        attributes: [ "userName", "nickName" ] 
+        attributes: [ "email", "nickName" ] 
     });
 
-    if(user != null) 
-    return user.dataValues;
     return user;
 }
 
-const findOneUserById = async (userName: string): Promise<object> => {
+const findOneUserById = async (email: string): Promise<object> => {
     const user: any = await User.findOne({
-        where: { userName: userName }
+        where: { email: email }
     })
 
     if(user != null) 
@@ -20,19 +18,19 @@ const findOneUserById = async (userName: string): Promise<object> => {
     return user;
 }
 
-const userCreate = async (userName: string, password: string, nickName: string) => {
+const userCreate = async (email: string, password: string, nickName: string) => {
     await User.create({
-        userName: userName,
+        email: email,
         password: password,
         nickName: nickName,
     });
 }
 
-const userNameUpdate = async (userName: string, user: string) => {
+const emailUpdate = async (email: string, user: string) => {
     await User.update({
-        userName: userName,
+        email: email,
     }, {
-        where: { userName: user }
+        where: { email: user }
     });
 }
 
@@ -40,7 +38,7 @@ const passwordUpdate = async (password: string, user: string) => {
     await User.update({
         password: password,
     }, {
-        where: { userName: user }
+        where: { email: user }
     });
 }
 
@@ -48,13 +46,13 @@ const nickNameUpdate = async (nickName: string, user: string) => {
     await User.update({
         nickName: nickName,
     }, {
-        where: { userName: user }
+        where: { email: user }
     });
 }
 
 const deleteUser = async (user: string) => {
     await User.destroy({
-      where: { userName: user }  
+      where: { email: user }  
     })
 }
 
@@ -62,7 +60,7 @@ export {
     findAllUser,
     findOneUserById,
     userCreate,
-    userNameUpdate,
+    emailUpdate,
     passwordUpdate,
     nickNameUpdate,
     deleteUser

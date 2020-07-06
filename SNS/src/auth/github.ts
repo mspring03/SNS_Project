@@ -13,13 +13,14 @@ passport.use(new GitHubStrategy({
     callbackURL: "http://10.156.145.143:8080/api/auth/github/callback",
     scope: [ 'user:email' ],
 }, async function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    
     if(!await User.findOne({ where: { email: profile.emails[0].value }})){
-        const user = await User.create({ 
+        await User.create({ 
             email: profile.emails[0].value,
             password: `${profile._json.id}${profile._json.node_id}`,
             nickName: profile._json.login
-         });
-        
+        });
     }
 
     return cb(null, profile);

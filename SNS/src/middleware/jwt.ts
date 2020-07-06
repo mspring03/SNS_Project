@@ -10,7 +10,11 @@ const accessToken = (req: Request, res: Response, next: NextFunction) => {
             if(err) 
                 return res.json({ message: err });
             else{
+                console.log(decoded);
+                
                 req['decoded'] = decoded;
+                console.log(req['decoded']);
+                
                 next();
             }
         });

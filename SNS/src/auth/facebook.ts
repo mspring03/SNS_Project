@@ -8,8 +8,8 @@ const FaceBookStrategy = FaceBook.Strategy
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 passport.use(new FaceBookStrategy({
-    clientID: "2597531827227737",
-    clientSecret: "66ff19d5a549446628beb02640f95e15",
+    clientID: "",
+    clientSecret: "",
     callbackURL: "http://localhost:8080/api/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'link', 'email']
 }, async function(accessToken, refreshToken, profile, cb) {

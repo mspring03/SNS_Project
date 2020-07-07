@@ -9,18 +9,19 @@ const findUserByEmail: type = async (email) => {
         where: { email: email }
     });
 
-    if(user != null) 
-    return user.dataValues;
+    if (user != null)
+        return user.dataValues;
     return user;
 };
 
 const findUserByToken: type = async (token) => {
     const user: any = await User.findOne({
+        attributes: ["id", "email", "nickName"],
         where: { token: token }
     });
 
-    if(user != null) 
-    return user.dataValues;
+    if (user != null)
+        return user.dataValues;
     return user;
 };
 
@@ -29,8 +30,8 @@ const findUserByRefreshToken: type = async (refreshtoken) => {
         where: { refreshtoken: refreshtoken }
     });
 
-    if(user != null) 
-    return user.dataValues;
+    if (user != null)
+        return user.dataValues;
     return user;
 };
 
@@ -38,8 +39,8 @@ const tokenUpdate = async (email: string, token: string, refreshtoken: string) =
     await User.update({
         token: token,
         refreshtoken: refreshtoken
-    },{ 
-        where: { email: email } 
+    }, {
+        where: { email: email }
     });
 }
 

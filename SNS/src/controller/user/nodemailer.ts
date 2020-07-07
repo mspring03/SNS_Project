@@ -1,5 +1,10 @@
 const nodemailer = require('nodemailer');
 
+import path from 'path';
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
 export const mailSender = {
     sendGmail : function(param){
         const transporter = nodemailer.createTransport({
@@ -9,13 +14,13 @@ export const mailSender = {
             ,secure : false
             ,requireTLS : true
             , auth: {
-              user: 'aespringaa@gmail.com'
-              ,pass: ''
+              user: process.env.Email,
+              pass: process.env.Email_Password
             }
         });
         // 메일 옵션
         const mailOptions = {
-                from: 'aespringaa@gmail.com',
+                from: process.env.Email,
                 to: param.toEmail, // 수신할 이메일
                 subject: param.subject, // 메일 제목
                 text: param.text // 메일 내용

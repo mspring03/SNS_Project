@@ -8,9 +8,9 @@ const GoogleStrategy = Google.OAuth2Strategy;
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 passport.use(new GoogleStrategy({
-    clientID: "",
-    clientSecret: "",
-    callbackURL: "http://10.156.145.143:8080/api/auth/google/callback",
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://www.dsm-sns.ml:8080/api/auth/google/callback",
 }, async function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
     const email = profile.emails[0].value

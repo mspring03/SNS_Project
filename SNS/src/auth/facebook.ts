@@ -8,9 +8,9 @@ const FaceBookStrategy = FaceBook.Strategy
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 passport.use(new FaceBookStrategy({
-    clientID: "",
-    clientSecret: "",
-    callbackURL: "http://localhost:8080/api/auth/facebook/callback",
+    clientID: `${process.env.FACEBOOK_CLIENT_ID}`,
+    clientSecret: `${process.env.FACEBOOK_CLIENT_SECRET}`,
+    callbackURL: "http://www.dsm-sns.ml:8080/api/auth/facebook",
     profileFields: ['id', 'displayName', 'link', 'email']
 }, async function(accessToken, refreshToken, profile, cb) {
     if(!await User.findOne({ where: { email: profile._json.email }})){

@@ -8,9 +8,9 @@ const GitHubStrategy = GitHub.Strategy
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 passport.use(new GitHubStrategy({
-    clientID: "",
-    clientSecret: "",
-    callbackURL: "http://10.156.145.143:8080/api/auth/github/callback",
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://www.dsm-sns.ml:8080/api/auth/github/callback",
     scope: [ 'user:email' ],
 }, async function(accessToken, refreshToken, profile, cb) {
     console.log(profile);

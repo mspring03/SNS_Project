@@ -47,7 +47,7 @@ sequelize.sync()
 });
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Hello World");
+    res.send("https://dsm-2-2.gitbook.io/dsm-sns/");
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));

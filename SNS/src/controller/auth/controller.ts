@@ -51,8 +51,7 @@ const passport = async (req, res) => {
     const u: object = await userQuery.findUserByEmail(req.user.emails[0].value);
     console.log(u);
 
-    res.status(200).json({ message: 'signIn success', token, refreshtoken }).end();
-    res.redirect('/');
+    res.status(200).json({ message: 'signIn success', token, refreshtoken });
 }
 
 export {

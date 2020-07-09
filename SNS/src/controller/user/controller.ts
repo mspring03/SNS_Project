@@ -32,7 +32,7 @@ const signUpUser: type = async (req, res) => {
         };
 
         mailSender.sendGmail(emailParam);
-        res.json({ message: 'Send Email Verification Code', code: `${code}` });
+        res.status(200).json({ message: 'Send Email Verification Code', code: `${code}` });
     } catch (e) {
         res.status(404).json({ message: e.message }).end();
     }

@@ -17,6 +17,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mysql": "^2.15.13",
     "@types/node": "^14.0.13",
+    "@types/nodemailer": "^6.4.0",
     "@types/passport": "^1.0.3",
     "@types/passport-facebook": "^2.1.10",
     "@types/sequelize": "^4.28.9",

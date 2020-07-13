@@ -1,8 +1,17 @@
 import { User } from "../../models/user";
+import bcrypt from "bcrypt-nodejs";
+
+const passwordHashing = async (password: string): Promise<string> => {
+    return bcrypt.hashSync(password);
+}
+
+const passwordCompare = async (password: string, userPw: string): Promise<boolean> => {
+    return await bcrypt.compareSync(password, userPw);
+}
 
 const findAllUser = async (): Promise<object> => {
     const user: any = await User.findAll({
-        attributes: [ "email", "nickName" ] 
+        attributes: ["email", "nickName"]
     });
 
     return user;
@@ -12,9 +21,11 @@ const findOneUserById = async (email: string): Promise<object> => {
     const user: any = await User.findOne({
         where: { email: email }
     })
+    console.log(user);
 
-    if(user != null) 
-    return user.dataValues;
+
+    if (user != null)
+        return user.dataValues;
     return user;
 }
 
@@ -52,11 +63,13 @@ const nickNameUpdate = async (nickName: string, user: string) => {
 
 const deleteUser = async (user: string) => {
     await User.destroy({
-      where: { email: user }  
+        where: { email: user }
     })
 }
 
 export {
+    passwordHashing,
+    passwordCompare,
     findAllUser,
     findOneUserById,
     userCreate,

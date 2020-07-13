@@ -1,7 +1,16 @@
 import { User } from "../../models/user";
+import bcrypt from "bcrypt-nodejs";
 
 interface type {
     (value1: string): Promise<object>;
+}
+
+const passwordHashing = async (password: string): Promise<string> => {
+    return bcrypt.hashSync(password);
+}
+
+const passwordCompare = async (password: string, userPw: string): Promise<boolean> => {
+    return await bcrypt.compareSync(password, userPw);
 }
 
 const findUserByEmail: type = async (email) => {
@@ -45,6 +54,8 @@ const tokenUpdate = async (email: string, token: string, refreshtoken: string) =
 }
 
 export {
+    passwordHashing,
+    passwordCompare,
     findUserByEmail,
     findUserByToken,
     findUserByRefreshToken,

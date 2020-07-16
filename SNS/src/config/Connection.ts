@@ -7,6 +7,7 @@ export const sequelize = new Sequelize(
     config.database.password,
     {
         host: config.database.host,
+        port: 3306,
         dialect: "mysql",
         define: {
             timestamps: false

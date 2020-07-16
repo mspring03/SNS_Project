@@ -7,8 +7,8 @@ import { use } from "passport";
 const router = express.Router();
 const findAllUserHanddler = middelware.tryCatchMiddleware.NotFound(userController.findAllUser);
 const showUserHanddler = middelware.tryCatchMiddleware.NotFound(userController.showUser);
-const signUpUserHanddler = middelware.tryCatchMiddleware.NotFound(userController.signUpUser);
-const checkEmailHanddler = middelware.tryCatchMiddleware.NotFound(userController.checkEmail);
+const emailSenderHanddler = middelware.tryCatchMiddleware.NotFound(userController.emailSender);
+const signUpHanddler = middelware.tryCatchMiddleware.NotFound(userController.signUp);
 const userUpdateHanddler = middelware.tryCatchMiddleware.NotFound(userController.userUpdate);
 const userDeleteHanddler = middelware.tryCatchMiddleware.NotFound(userController.userDelete);
 const cheakPermission = userController.checkPermission;
@@ -16,8 +16,8 @@ const accessToken = authMiddleware.accessToken;
 
 router.get("/", accessToken, findAllUserHanddler);
 router.get("/:email", accessToken, showUserHanddler);
-router.post("/", signUpUserHanddler);
-router.post("/check", checkEmailHanddler);
+router.post("/", emailSenderHanddler);
+router.post("/signUp", signUpHanddler);
 router.put("/:email", accessToken, cheakPermission, userUpdateHanddler);
 router.delete("/:email", accessToken, cheakPermission, userDeleteHanddler);
 

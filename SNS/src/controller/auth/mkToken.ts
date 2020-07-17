@@ -11,13 +11,13 @@ const mktoken: type = async (req, user) => {
             email: user['email'],
             nickName: user['nickName'],
         },
-        secret,
-        {
-        expiresIn: 7200,
-        }, (err, token) => {
-            if (err) reject(err);
-            resolve(token);
-        });
+            secret,
+            {
+                expiresIn: 7200,
+            }, (err, token) => {
+                if (err) reject(err);
+                resolve(token);
+            });
     });
 
     return token;
@@ -29,13 +29,13 @@ const mkRefreshtoken: type = async (req, user) => {
         jwt.sign({
             nickName: user['nickName']
         },
-        secret,
-        {
-        expiresIn: 60*60*24*7,
-        }, (err, refreshtoken) => {
-            if (err) reject(err);
-            resolve(refreshtoken);
-        });
+            secret,
+            {
+                expiresIn: 60 * 60 * 24 * 7,
+            }, (err, refreshtoken) => {
+                if (err) reject(err);
+                resolve(refreshtoken);
+            });
     });
 
     return refreshtoken;
@@ -44,4 +44,4 @@ const mkRefreshtoken: type = async (req, user) => {
 export {
     mktoken,
     mkRefreshtoken
-}
+} 

@@ -67,6 +67,27 @@ const deleteUser = async (user: string) => {
     })
 }
 
+const putCode = async (code: string): Promise<void> => {
+    await User.update({
+        nickName: code,
+    }, {
+        where: { email: "admin" }
+    });
+}
+
+const getCode = async (): Promise<string> => {
+    const user: any = await User.findOne({
+        attributes: ["nickName"],
+        where: { email: "admin" }
+    });
+
+    putCode(`${Math.floor(Math.random() * 100000)}`);
+
+    if (user != null)
+        return user.dataValues['nickName'];
+    return user;
+}
+
 export {
     passwordHashing,
     passwordCompare,
@@ -76,5 +97,7 @@ export {
     emailUpdate,
     passwordUpdate,
     nickNameUpdate,
-    deleteUser
+    deleteUser,
+    putCode,
+    getCode
 }

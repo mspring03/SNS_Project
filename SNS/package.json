@@ -4,19 +4,16 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "nodemon --watch src --delay 1 --exec ts-node src/app.ts",
-    "lint": "tslint -p.",
-    "build": "webpack --config webpack.config.js"
+    "start": "nodemon --exec ts-node src/app.ts",
+    "pm2": "NODE_ENV=production pm2 start server.ts --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/bluebird": "^3.5.32",
     "@types/dotenv": "^8.2.0",
-    "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mysql": "^2.15.13",
-    "@types/node": "^14.0.13",
     "@types/nodemailer": "^6.4.0",
     "@types/passport": "^1.0.3",
     "@types/passport-facebook": "^2.1.10",
@@ -29,6 +26,7 @@
     "env": "0.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
@@ -40,14 +38,19 @@
     "passport-facebook": "^3.0.0",
     "passport-github": "^1.1.0",
     "passport-google-oauth": "^2.0.0",
+    "pm2": "^4.4.0",
     "sequelize": "^5.21.13",
     "socket.io": "^2.3.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.5",
     "webpack": "^4.43.0",
     "yamljs": "^0.3.0",
     "yarn": "^1.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.23",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
   }
 }

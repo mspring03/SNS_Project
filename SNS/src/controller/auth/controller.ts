@@ -10,11 +10,10 @@ const mkRefreshtoken = token.mkRefreshtoken;
 const signInUser: type = async (req, res) => {
     const { email, password } = req.body;
     const user: object = await userQuery.findUserByEmail(email);
-    console.log(user);
 
     if (!user) throw new Error('Incorrect email or password');
 
-    if (user['password'] === password) {
+    if (await userQuery.passwordCompare(password, user['password'])) {
         const token: string = await mktoken(req, user);
         const refreshtoken: string = await mkRefreshtoken(req, user);
         await userQuery.tokenUpdate(user['email'], token, refreshtoken);
@@ -23,19 +22,19 @@ const signInUser: type = async (req, res) => {
 }
 
 const me: type = async (req, res) => {
-    const eccesstoken: any = req.headers['x-access-token'];
+    const accesstoken: any = req.headers['x-access-token'];
 
-    const user: object = await userQuery.findUserByToken(eccesstoken);
+    const user: object = await userQuery.findUserByToken(accesstoken);
     if (!user) throw new Error('not found user');
     res.status(200).json({ message: 'user return', user });
 }
 
 const refresh: type = async (req, res) => {
-    const eccesstoken: any = req.headers['x-access-token'];
+    const accesstoken: any = req.headers['x-access-token'];
     const refreshtoken: any = req.headers['x-refresh-token'];
     const user: object = await userQuery.findUserByRefreshToken(refreshtoken);
 
-    if (user['token'] == eccesstoken) {
+    if (user['token'] == accesstoken) {
         const token: string = await mktoken(req, user);
         await userQuery.tokenUpdate(user['email'], token, refreshtoken);
         res.status(200).json({ message: 'token refresh', token, refreshtoken }).end();

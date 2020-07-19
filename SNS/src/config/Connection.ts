@@ -3,7 +3,7 @@ import config from './database.config';
 
 export const sequelize = new Sequelize(
     config.database.name,
-    config.database.user,
+    "mspring03",
     config.database.password,
     {
         host: config.database.host,

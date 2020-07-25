@@ -1,4 +1,5 @@
 import { User } from "../../models/user";
+import { Op } from "sequelize";
 import bcrypt from "bcrypt-nodejs";
 
 const passwordHashing = async (password: string): Promise<string> => {
@@ -11,18 +12,30 @@ const passwordCompare = async (password: string, userPw: string): Promise<boolea
 
 const findAllUser = async (): Promise<object> => {
     const user: any = await User.findAll({
-        attributes: ["email", "nickName"]
+        attributes: ["id", "email", "nickName", "profileImg"],
+        where: {
+            [Op.gt]: [{ id: 1 }]
+        }
     });
 
     return user;
 }
 
+const findUserByToken = async (token: string): Promise<object> => {
+    const user: any = await User.findOne({
+        attributes: ["id", "email", "nickName", "profileImg"],
+        where: { token: token }
+    });
+
+    if (user != null)
+        return user.dataValues;
+    return user;
+};
+
 const findOneUserById = async (email: string): Promise<object> => {
     const user: any = await User.findOne({
         where: { email: email }
     })
-    console.log(user);
-
 
     if (user != null)
         return user.dataValues;
@@ -34,6 +47,7 @@ const userCreate = async (email: string, password: string, nickName: string) => 
         email: email,
         password: password,
         nickName: nickName,
+        profileImg: "https://dsm-sns.s3.ap-northeast-2.amazonaws.com/s3/2a4ce49c05c98ea7ae14936e8cf75da6"
     });
 }
 
@@ -58,6 +72,14 @@ const nickNameUpdate = async (nickName: string, user: string) => {
         nickName: nickName,
     }, {
         where: { email: user }
+    });
+}
+
+const profileImgUpdate = async (file: string, token: string) => {
+    await User.update({
+        profileImg: file,
+    }, {
+        where: { token: token }
     });
 }
 
@@ -92,11 +114,13 @@ export {
     passwordHashing,
     passwordCompare,
     findAllUser,
+    findUserByToken,
     findOneUserById,
     userCreate,
     emailUpdate,
     passwordUpdate,
     nickNameUpdate,
+    profileImgUpdate,
     deleteUser,
     putCode,
     getCode

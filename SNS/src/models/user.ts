@@ -6,6 +6,7 @@ export class User extends Model<User> {
     email: string;
     password: string;
     nickName: string;
+    profileImg: string;
     token: string;
     refreshtoken: string;
 }
@@ -31,6 +32,10 @@ User.init(
             type: Sequelize.STRING,
             allowNull: false
         },
+        profileImg: {
+            type: Sequelize.STRING,
+
+        },
         token: {
             type: Sequelize.STRING
         },
@@ -38,7 +43,7 @@ User.init(
             type: Sequelize.STRING
         }
     }, {
-        sequelize,
-        modelName: "User"
-    }
+    sequelize,
+    modelName: "User"
+}
 );

@@ -2,7 +2,7 @@ import express from "express";
 import * as userController from "../controller/user/controller";
 import * as middelware from "../middleware/errorHandler"
 import * as authMiddleware from "../middleware/jwt";
-import { use } from "passport";
+import * as fileManagement from "../middleware/fileManagement";
 
 const router = express.Router();
 const findAllUserHanddler = middelware.tryCatchMiddleware.NotFound(userController.findAllUser);
@@ -18,6 +18,7 @@ router.get("/", accessToken, findAllUserHanddler);
 router.get("/:email", accessToken, showUserHanddler);
 router.post("/", emailSenderHanddler);
 router.post("/signUp", signUpHanddler);
+router.post("/profileImgUpdate", accessToken, fileManagement.profileImgUpload, fileManagement.profileImgDelete, userController.userProfileUpdate);
 router.put("/:email", accessToken, cheakPermission, userUpdateHanddler);
 router.delete("/:email", accessToken, cheakPermission, userDeleteHanddler);
 

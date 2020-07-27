@@ -16,12 +16,13 @@ const showUser: type = async (req, res) => {
 }
 
 const emailSender: type = async (req, res) => {
-    const { email } = req.body.email;
-    const code = `${Math.floor(Math.random() * 100000)}`;
-    await query.putCode(code);
+    const email = req.body.email;
 
     if (await query.findOneUserById(email))
         throw new Error('email already exist');
+
+    const code = `${Math.floor(Math.random() * 100000)}`;
+    await query.putCode(code);
 
     const emailParam = {
         toEmail: email,
@@ -35,13 +36,24 @@ const emailSender: type = async (req, res) => {
 
 const signUp: type = async (req, res) => {
     const { email, password, nickName, inputCode }: userType = req.body;
-    const hashingPW = await query.passwordHashing(password);
     const code: string = await query.getCode();
 
     if (code === inputCode) {
+        const hashingPW = await query.passwordHashing(password);
+
         await query.userCreate(email, hashingPW, nickName);
         res.status(200).json({ message: 'signUp success' }).end();
     } else throw Error('incorrect code');
+}
+
+
+const userProfileUpdate: type = async (req, res) => {
+    const token: any = req.headers['x-access-token'];
+    console.log(req['file']);
+
+    await query.profileImgUpdate(req['file'].location, token);
+
+    res.status(200).json({ message: 'Update profileImg success' })
 }
 
 const userUpdate: type = async (req, res) => {
@@ -82,6 +94,7 @@ export {
     showUser,
     emailSender,
     signUp,
+    userProfileUpdate,
     userUpdate,
     userDelete,
     checkPermission

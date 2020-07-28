@@ -22,7 +22,8 @@ passport.use(new GitHubStrategy({
         await User.create({
             email: profile.emails[0].value,
             password: hashingPw,
-            nickName: profile._json.login
+            nickName: profile._json.login,
+            profileImg: "https://dsm-sns.s3.ap-northeast-2.amazonaws.com/s3/2a4ce49c05c98ea7ae14936e8cf75da6"
         });
     }
 

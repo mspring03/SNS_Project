@@ -10,6 +10,7 @@ const mkRefreshtoken = token.mkRefreshtoken;
 const signInUser: type = async (req, res) => {
     const { email, password } = req.body;
     const user: object = await userQuery.findUserByEmail(email);
+    const firstLogin: boolean = !Boolean(user['token']);
 
     if (!user) throw new Error('Incorrect email or password');
 
@@ -17,7 +18,7 @@ const signInUser: type = async (req, res) => {
         const token: string = await mktoken(req, user);
         const refreshtoken: string = await mkRefreshtoken(req, user);
         await userQuery.tokenUpdate(user['email'], token, refreshtoken);
-        res.status(200).json({ message: 'signIn success', token, refreshtoken }).end();
+        res.status(200).json({ message: 'signIn success', token, refreshtoken, firstLogin }).end();
     } else throw new Error('Incorrect email or password');
 }
 
@@ -43,14 +44,17 @@ const refresh: type = async (req, res) => {
 
 const passport = async (req, res) => {
     const user: object = await userQuery.findUserByEmail(req.user.emails[0].value);
+    const firstLogin: boolean = !Boolean(user['token']);
     const token: string = await mktoken(req, user);
     const refreshtoken: string = await mkRefreshtoken(req, user);
+    console.log(firstLogin);
+
 
     await userQuery.tokenUpdate(user['email'], token, refreshtoken);
     const u: object = await userQuery.findUserByEmail(req.user.emails[0].value);
     console.log(u);
 
-    res.status(200).json({ message: 'signIn success', token, refreshtoken });
+    res.status(200).json({ message: 'signIn success', token, refreshtoken, firstLogin });
 }
 
 export {

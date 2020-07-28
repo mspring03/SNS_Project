@@ -20,7 +20,8 @@ passport.use(new FaceBookStrategy({
         await User.create({
             email: profile._json.email,
             password: hashingPw,
-            nickName: profile._json.name
+            nickName: profile._json.name,
+            profileImg: "https://dsm-sns.s3.ap-northeast-2.amazonaws.com/s3/2a4ce49c05c98ea7ae14936e8cf75da6"
         });
     }
 

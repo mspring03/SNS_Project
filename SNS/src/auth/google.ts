@@ -22,7 +22,8 @@ passport.use(new GoogleStrategy({
         await User.create({
             email: email,
             password: hashingPw,
-            nickName: nickName[0]
+            nickName: nickName[0],
+            profileImg: "https://dsm-sns.s3.ap-northeast-2.amazonaws.com/s3/2a4ce49c05c98ea7ae14936e8cf75da6"
         });
     }
 

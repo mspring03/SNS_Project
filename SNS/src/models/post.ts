@@ -20,7 +20,6 @@ Post.init(
         },
         user_id: {
             type: Sequelize.INTEGER,
-            unique: true,
             allowNull: false
         },
         description: {
@@ -31,6 +30,11 @@ Post.init(
         },
         like: {
             type: Sequelize.INTEGER
+        },
+        createdAt: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.fn('NOW'),
         }
     }, {
     sequelize,

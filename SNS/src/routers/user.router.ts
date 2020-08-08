@@ -9,6 +9,7 @@ const findAllUserHanddler = middelware.tryCatchMiddleware.NotFound(userControlle
 const showUserHanddler = middelware.tryCatchMiddleware.NotFound(userController.showUser);
 const emailSenderHanddler = middelware.tryCatchMiddleware.NotFound(userController.emailSender);
 const signUpHanddler = middelware.tryCatchMiddleware.NotFound(userController.signUp);
+const passwordUpdateHanddler = middelware.tryCatchMiddleware.NotFound(userController.passwordUpdate);
 const userUpdateHanddler = middelware.tryCatchMiddleware.NotFound(userController.userUpdate);
 const userDeleteHanddler = middelware.tryCatchMiddleware.NotFound(userController.userDelete);
 const cheakPermission = userController.checkPermission;
@@ -18,7 +19,8 @@ router.get("/", accessToken, findAllUserHanddler);
 router.get("/:email", accessToken, showUserHanddler);
 router.post("/", emailSenderHanddler);
 router.post("/signUp", signUpHanddler);
-router.post("/profileImgUpdate", accessToken, fileManagement.profileImgUpload, fileManagement.profileImgDelete, userController.userProfileUpdate);
+router.patch("/passwordUpdate", passwordUpdateHanddler);
+router.patch("/profileImgUpdate", accessToken, fileManagement.profileImgUpload, fileManagement.profileImgDelete, userController.userProfileUpdate);
 router.put("/:email", accessToken, cheakPermission, userUpdateHanddler);
 router.delete("/:email", accessToken, cheakPermission, userDeleteHanddler);
 

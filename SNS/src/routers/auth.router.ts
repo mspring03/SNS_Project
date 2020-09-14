@@ -17,7 +17,7 @@ const accessToken = authMiddleware.accessToken;
 const refreshToken = authMiddleware.refreshToken;
 
 router.post("/signIn", signInHanddler);
-router.get("/tokenValidation", accessToken,)
+router.get("/tokenValidation", accessToken, tokenValidationHanddler);
 router.get("/me", accessToken, meHanddler);
 router.get("/refresh", refreshToken, refreshHanddler);
 router.get('/github', passportGitHub.authenticate('github'));

@@ -15,8 +15,7 @@ Friend.init(
         },
         post_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            primaryKey: true
+            allowNull: false
         }
     }, {
     sequelize,

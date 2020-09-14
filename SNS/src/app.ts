@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
@@ -9,9 +10,14 @@ import * as dotenv from "dotenv";
 import path from 'path';
 import session from "express-session";
 import passport from "passport";
+import SocketIo from "socket.io";
+import socketioJwt from "socketio-jwt";
+import socketEvent from "./controller/post/comment";
 
 const app = express();
 const port: number = 8080;
+const server = http.createServer(app);
+const io = SocketIo(server);
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
@@ -55,8 +61,18 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(port, () => {
+io.sockets
+    .on('connection', socketioJwt.authorize({
+        secret: `${process.env.secretkey}`,
+        timeout: 15000
+    }))
+    .on('authenticated', (socket) => {
+        console.log(`hello! ${socket.decoded_token.name}`);
+        socketEvent(io, socket);
+    });
+
+server.listen(port, () => {
     console.log("app listening on port 8080!");
 });
 
-module.exports = app;
+export = app;

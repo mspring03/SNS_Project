@@ -22,6 +22,10 @@ const signInUser: type = async (req, res) => {
     } else throw new Error('Incorrect email or password');
 }
 
+const tokenValidation: type = async (req, res) => {
+    res.status(200).json({ message: 'token be valid' });
+}
+
 const me: type = async (req, res) => {
     const accesstoken: any = req.headers['x-access-token'];
 
@@ -59,6 +63,7 @@ const passport = async (req, res) => {
 
 export {
     me,
+    tokenValidation,
     signInUser,
     refresh,
     passport

@@ -1,12 +1,12 @@
 import { sequelize } from "../config/Connection"
 import Sequelize, { Model } from "sequelize"
 
-export class post_like extends Model<post_like> {
+export class Post_like extends Model<Post_like> {
     post_id: number;
     user_id: number;
 }
 
-post_like.init(
+Post_like.init(
     {
         post_id: {
             type: Sequelize.INTEGER,
@@ -18,6 +18,6 @@ post_like.init(
         }
     }, {
     sequelize,
-    modelName: "post_like"
+    modelName: "Post_like"
 }
 );

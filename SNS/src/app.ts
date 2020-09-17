@@ -12,7 +12,7 @@ import session from "express-session";
 import passport from "passport";
 import SocketIo from "socket.io";
 import socketioJwt from "socketio-jwt";
-import socketEvent from "./controller/post/comment";
+import socketEvent from "./controller/commnet.ts/controller";
 
 const app = express();
 const port: number = 8080;

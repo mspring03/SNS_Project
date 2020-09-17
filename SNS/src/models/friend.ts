@@ -1,6 +1,7 @@
 import { sequelize } from "../config/Connection"
 import Sequelize, { Model } from "sequelize"
 import { Post } from "./post";
+import { User } from "./user";
 
 export class Friend extends Model<Friend> {
     user_id: number;
@@ -13,7 +14,7 @@ Friend.init(
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        post_id: {
+        friend_id: {
             type: Sequelize.INTEGER,
             allowNull: false
         }
@@ -23,5 +24,8 @@ Friend.init(
 }
 );
 
-Friend.hasMany(Post, { foreignKey: 'id', sourceKey: 'post_id' });
-Post.belongsTo(Friend, { foreignKey: 'id', targetKey: 'post_id' });  
+Friend.hasMany(Post, { foreignKey: 'id', sourceKey: 'friend_id' });
+Post.belongsTo(Friend, { foreignKey: 'id', targetKey: 'friend_id' });
+
+Friend.hasMany(User, { foreignKey: 'id', sourceKey: 'friend_id' });
+User.belongsTo(Friend, { foreignKey: 'id', targetKey: 'friend_id' });

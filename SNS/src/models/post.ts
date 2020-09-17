@@ -1,6 +1,7 @@
 import { sequelize } from "../config/Connection";
 import Sequelize, { Model } from "sequelize";
 import { Comment } from "./comment";
+import { Post_like } from "./post_like";
 
 export class Post extends Model<Post> {
     id: number;
@@ -44,3 +45,6 @@ Post.init(
 
 Post.hasMany(Comment, { foreignKey: 'post_id', sourceKey: 'id' });
 Comment.belongsTo(Post, { foreignKey: 'post_id', targetKey: 'id' });
+
+Comment.hasMany(Post_like, { foreignKey: 'post_id', sourceKey: 'id' });
+Post_like.belongsTo(Comment, { foreignKey: 'post_id', targetKey: 'id' });

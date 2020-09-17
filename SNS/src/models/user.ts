@@ -2,6 +2,7 @@ import { sequelize } from "../config/Connection";
 import Sequelize, { Model } from "sequelize";
 import { Post } from "./post";
 import { Friend } from "./friend";
+import { Friend_request } from "./friend_request";
 
 export class User extends Model<User> {
     id: number;
@@ -55,3 +56,6 @@ Post.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
 
 User.hasMany(Friend, { foreignKey: 'user_id', sourceKey: 'id' });
 Friend.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
+
+User.hasMany(Friend_request, { foreignKey: 'user_id', sourceKey: 'id' });
+Friend_request.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });

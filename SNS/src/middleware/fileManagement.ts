@@ -1,7 +1,8 @@
 import aws from "aws-sdk"
 import multer from "multer"
 import multerS3 from "multer-s3"
-import * as query from "../controller/user/query"
+import * as userQuery from "../controller/user/query"
+import * as postQuery from "../controller/post/query"
 
 const s3 = new aws.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -9,7 +10,7 @@ const s3 = new aws.S3({
     region: process.env.AWS_DEFAULT_REGION
 })
 
-const multerImg = multer({
+const multerProfileImg = multer({
     storage: multerS3({
         s3: s3,
         acl: 'public-read-write',
@@ -17,11 +18,19 @@ const multerImg = multer({
     })
 })
 
-export const profileImgUpload = multerImg.single('img');
+const multerPostImg = multer({
+    storage: multerS3({
+        s3: s3,
+        acl: 'public-read-write',
+        bucket: 'dsm-sns/post'
+    })
+})
 
-export const profileImgDelete = async (req, res, next) => {
+const profileImgUpload = multerProfileImg.single('img');
+
+const profileImgDelete = async (req, res, next) => {
     const token: any = req.headers['x-access-token'];
-    const user: any = await query.findUserByToken(token);
+    const user: any = await userQuery.findUserByToken(token);
     console.log(user);
 
     if (user['profileImg'] !== "https://dsm-sns.s3.ap-northeast-2.amazonaws.com/s3/2a4ce49c05c98ea7ae14936e8cf75da6") {
@@ -31,13 +40,45 @@ export const profileImgDelete = async (req, res, next) => {
 
         s3.deleteObject(params, function (err, data) {
             if (err) {
-                console.log('aws video delete error')
+                console.log('profile img delete error')
                 console.log(err, err.stack)
             } else {
-                console.log('aws video delete success' + data)
+                console.log('profile img delete success' + data)
             }
         })
     }
 
     next();
+}
+
+const postImgUpload = multerPostImg.array('img', 5);
+
+const postImgDelete = async (req, res, next) => {
+    const postId = req.body.postId;
+    const post: object = await postQuery.findOnePostById(postId);
+    console.log(post['uploadImg']);
+
+    const imgArray = post['uploadImg'].split('!@#$');
+    for (let i in imgArray) {
+        const params = { Bucket: "dsm-sns/post", Key: imgArray[i] }
+        console.log(params);
+
+        s3.deleteObject(params, function (err, data) {
+            if (err) {
+                console.log('upload img delete error')
+                console.log(err, err.stack)
+            } else {
+                console.log('upload img delete success' + data)
+            }
+        });
+    }
+
+    next();
+}
+
+export {
+    profileImgUpload,
+    profileImgDelete,
+    postImgUpload,
+    postImgDelete
 }

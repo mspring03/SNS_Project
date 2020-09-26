@@ -1,6 +1,7 @@
 import * as query from "./query";
 import { Request, Response } from "express";
-import { mailSender } from "../../middleware/nodemailer";
+import { mailSender } from "./nodemailer";
+import HTTPError from "../../exception/exception";
 
 interface type { (req: Request, res: Response): Promise<void> }
 interface userType { email: string, password: string, nickName: string, inputCode: string }
@@ -19,7 +20,7 @@ const emailSender: type = async (req, res) => {
     const email = req.body.email;
 
     if (await query.findOneUserById(email))
-        throw new Error('email already exist');
+        throw new HTTPError(404, 'email already exist');
 
     const code = `${Math.floor(Math.random() * 100000)}`;
     await query.putCode(code);
@@ -43,9 +44,20 @@ const signUp: type = async (req, res) => {
 
         await query.userCreate(email, hashingPW, nickName);
         res.status(200).json({ message: 'signUp success' }).end();
-    } else throw Error('incorrect code');
+    } else throw new HTTPError(404, "incorrect code");
 }
 
+const passwordUpdate: type = async (req, res) => {
+    const { password, inputCode } = req.body;
+    const code: string = await query.getCode();
+
+    if (code === inputCode) {
+        res.status(200).json({ message: 'signUp success' }).end();
+    } else throw new HTTPError(404, "incorrect code");;
+
+    const hashingPW = await query.passwordHashing(password);
+    if (password) await query.passwordUpdate(hashingPW, req.params.email);
+}
 
 const userProfileUpdate: type = async (req, res) => {
     const token: any = req.headers['x-access-token'];
@@ -72,7 +84,7 @@ const userDelete: type = async (req, res) => {
 
     if (await query.passwordCompare(password, user['password']))
         await query.deleteUser(req.params.email);
-    else throw new Error('wrong password');
+    else throw new HTTPError(404, 'wrong password');
 
     res.status(200).json({ message: 'Delete Successful' });
 }
@@ -94,6 +106,7 @@ export {
     showUser,
     emailSender,
     signUp,
+    passwordUpdate,
     userProfileUpdate,
     userUpdate,
     userDelete,

@@ -46,13 +46,13 @@ const friendProfile: type = async (req, res) => {
 }
 
 const findFriendPost: type = async (req, res) => {
-    const { userId } = req.body;
-    const searchList = await query.findFriendPost(userId);
+    const { friendId, page } = req.body;
+    const searchList = await query.findFriendPost(friendId, page);
 
-
+    res.status(200).json({ message: "success", searchList });
 }
 
-export = {
+export {
     FriendRequest,
     allowFriend,
     friendRequestList,

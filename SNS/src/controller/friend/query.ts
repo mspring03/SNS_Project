@@ -4,6 +4,9 @@ import { User } from "../../models/user";
 import { Post } from "../../models/post";
 import { Post_like } from "../../models/post_like";
 
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
 const friendRequest = async (userId, friendId) => {
     await Friend_request.create({
         user_id: friendId,
@@ -26,14 +29,16 @@ const allowFriend = async (userId, friendId) => {
 
 const findFriendRequestList = async (userId) => {
     const list = await Friend_request.findAll({
-        where: {
-            user_id: userId
-        },
         include: [{
             model: User,
             required: false,
             attributes: ['profileImg', 'nickName']
-        }]
+        }],
+        where: {
+            user_id: {
+                [Op.like]: `%${userId}%`
+            }
+        }
     });
 
     return list;
@@ -74,7 +79,9 @@ const findFriendProfile = async (userId, friendId) => {
     })
 }
 
-const findFriendPost = async (friendId) => {
+const findFriendPost = async (friendId, page) => {
+    let offset;
+    if (page > 1) { offset = 7 * (page - 1); }
     const friendPost = await Post.findAll({
         where: {
             user_id: friendId
@@ -82,7 +89,9 @@ const findFriendPost = async (friendId) => {
         include: [{
             model: Post_like,
             required: false,
-        }]
+        }],
+        offset: offset,
+        limit: 7,
     });
 
     return friendPost;
@@ -96,5 +105,4 @@ export = {
     findFriendByNickname,
     findFriendProfile,
     findFriendPost
-
 }

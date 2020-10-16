@@ -11,8 +11,8 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "test"]
+  "include": ["src/**/*", "test", "test/user.spec.ts"],
+  "exclude": ["node_modules", "src/test"]
 }
